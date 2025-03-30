@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm Tra Học Sinh</title>
+</head>
+<body>
+    <h2>Bài kiểm tra</h2>
+    <form id="quizForm">
+        Họ Tên: <input type="text" id="hoten" required><br>
+        Lớp: <input type="text" id="lop" required><br>
+        Câu 1: 2 + 2 = ?
+        <select id="cau1">
+            <option value="A">4</option>
+            <option value="B">5</option>
+        </select><br>
+        Câu 2: 3 + 3 = ?
+        <select id="cau2">
+            <option value="A">5</option>
+            <option value="B">6</option>
+        </select><br>
+        <button type="submit">Nộp bài</button>
+    </form>
+    
+    <script>
+        document.getElementById("quizForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            var data = {
+                hoten: document.getElementById("hoten").value,
+                lop: document.getElementById("lop").value,
+                cau1: document.getElementById("cau1").value,
+                cau2: document.getElementById("cau2").value
+            };
 
+            fetch("https://script.google.com/macros/s/AKfycbx3oYo3wKht0wgzMamZb2oKWeT96aa9F1LomUrfI89ESdAQYU1cfeMkKe2DaiCWKgA/exec", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === "success") {
+                    alert("Nộp bài thành công!");
+                }
+            })
+            .catch(error => console.error(error));
+        });
+    </script>
+</body>
+</html>
